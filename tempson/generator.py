@@ -2,12 +2,16 @@
 
 from tokenizer import *
 
-LEFT_DELIMITERS  = '{{'
-RIGHT_DELIMITERS = '}}'
+defaultConfig = {
+    "leftDelimiters":       '{{',
+    "rightDelimiters":      '}}',
+    "leftBlockDelimiters":  '{%',
+    "rightBlockDelimiters": '%}'
+}
 
 class generator(object):
 
-    def __init__(self, template, config = { "leftDelimiters": LEFT_DELIMITERS, "rightDelimiters": RIGHT_DELIMITERS }):
+    def __init__(self, template, config = defaultConfig):
         self._config = config
         self.template = template
 
