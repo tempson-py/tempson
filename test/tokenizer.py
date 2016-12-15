@@ -46,17 +46,17 @@ class complierTest(unittest.TestCase):
         result = token.tokenize()
         self.assertEqual(result, [
             {'type': 'HTML', 'value': '<div>\n            '},
-            {'type': 'VAREXP', 'value': '{% for item in list %}'},
+            {'type': 'BLKEXP', 'value': '{% for item in list %}'},
             {'type': 'HTML', 'value': '\n                '},
             {'type': 'VAREXP', 'value': '{{ item }}'},
             {'type': 'HTML', 'value': '\n            '},
-            {'type': 'VAREXP', 'value': '{% endfor %}'},
+            {'type': 'BLKEXP', 'value': '{% endfor %}'},
             {'type': 'HTML', 'value': '\n        </div>'}], 'Error tokenize variable with string expression template.')
 
     def test_comment_template(self):
         token = tempson.complier("""<div>
             {* this is comments *}
-            {* multi row comments
+            {* multi-line comments
                row1
                row2
              *}
@@ -66,7 +66,7 @@ class complierTest(unittest.TestCase):
             {'type': 'HTML', 'value': '<div>\n            '},
             {'type': 'COMEXP', 'value': '{* this is comments *}'},
             {'type': 'HTML', 'value': '\n            '},
-            {'type': 'COMEXP', 'value': '{* multi row comments\n               row1\n               row2\n             *}'},
+            {'type': 'COMEXP', 'value': '{* multi-line comments\n               row1\n               row2\n             *}'},
             {'type': 'HTML', 'value': '\n        </div>'}], 'Error tokenize variable with string expression template.')
 
     def test_raw_template(self):
