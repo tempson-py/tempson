@@ -3,6 +3,11 @@ import tempson
 
 class complierTest(unittest.TestCase):
 
+    def test_template_type(self):
+        with self.assertRaises(tempson.TemplateTypeError):
+            token = tempson.complier([])
+            result = token.tokenize()
+
     def test_empty_template(self):
         token = tempson.complier('')
         result = token.tokenize()
@@ -67,7 +72,6 @@ class complierTest(unittest.TestCase):
     def test_raw_template(self):
         token = tempson.complier("""<div>{{{ rawHTML }}}</div>""")
         result = token.tokenize()
-        print result
         self.assertEqual(result, [
             {'type': 'HTML', 'value': '<div>'},
             {'type': 'RAWEXP', 'value': '{{{ rawHTML }}}'},
