@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+import sys
+
+# get arguments
+argv = sys.argv[1:]
+# colors
+NORMAL  = '1'
+GRAY    = '2'
+ITALIC  = '3'
+UDLNE   = '4' # underline
+REVERSE = '7' # white background
+BLACK   = '30'
+RED     = '31'
+GREEN   = '32'
+YELLOW  = '33'
+BLUE    = '34'
+PURPLE  = '35'
+CYAN    = '36'
+# handlers
+handlers = {}
+
+# TODO
+def initProject(filename):
+    coloredPrint('[Tempson] init project: %s' % filename, GREEN)
+    # TODO
+    coloredPrint('[Tempson] init completed', GREEN)
+
+# register function
+def reg(argName, handler):
+    handlers[argName] = handler
+
+# caller
+def caller(argName):
+    # split key and value
+    if not argName.find('=') == -1:
+        kv = argName.split('=')
+        argName = kv[0]
+        argValue = kv[1]
+
+    # depatch command
+    if handlers.get(argName) == None:
+        coloredPrint('[Tempson] unknown argument: ' + str(argName), RED)
+    else:
+        coloredPrint('[Tempson] executing ' + str(argName), GREEN)
+        if not argName.find('=') == -1:
+            handlers[argName]()
+        else:
+            kv = argName.split('=')
+            handlers[argName](argValue)
+
+# print string with color
+def coloredPrint(string, color):
+    print('\033[1;%sm %s\x1b[0m' % (color, string))
+
+# main function
+def main():
+    # call all function had registered
+    for i in xrange(0, len(argv)):
+        caller(str(argv[i]).lower())
+
+# register command handler
+# !!! Must before main function execute !!!
+reg('init', initProject)
+
+# run main function
+main()
