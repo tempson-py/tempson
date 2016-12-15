@@ -191,7 +191,7 @@ doc.render(data)
 </ul>
 ```
 
-### 其他块语法
+### 块语法的嵌套
 
 除了判断和循环，在块语法中你还可以写入简单的 Python 语句：
 
@@ -199,11 +199,10 @@ doc.render(data)
 data = { 'nums': [1, 2, 3, 4] }
 template = '''
 <ul>
-  {% for num in nums:
-         if num == 2:
-             continue
-  %}
-  <li>{{ num * num }}</li>
+  {% for num in nums:%}
+  	{% if not num = 2 %}
+  	   <li>{{ num * num }}</li>
+    {% endif %}
   {% endfor %}
 </ul>
 '''
@@ -222,8 +221,6 @@ doc.render(data)
 </ul>
 ```
 
-> 虽然 Tempson 支持在块语句中加入无限制行数的 Python 语句，但是我们并不建议你这么做，这么做会导致模板和逻辑的耦合度过高偏离了 Tempson 的设计初衷。
->
 > 此外，和表达式语句一样，块语句的数据都被放在沙盒中，只能访问全局变量的一个白名单。你不应该在模板表达式中试图访问用户定义的全局变量，也不应该在块语句中试图访问上一个块语句的变量。
 
 ## 注释
