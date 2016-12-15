@@ -3,23 +3,23 @@
 import re
 from .error import *
 
-# Default delimiters
-defaultConfig = {
-    'leftDelimiters':          '\{\{',
-    'rightDelimiters':         '\}\}',
-    'leftBlockDelimiters':     '\{\%',
-    'rightBlockDelimiters':    '\%\}',
-    'leftCommentsDelimiters':  '\{\*',
-    'rightCommentsDelimiters': '\*\}',
-    'leftRawDelimiters':       '\{\{\{',
-    'rightRawDelimiters':      '\}\}\}'
-}
+""" Default delimiters
+    defaultConfig = {
+        'leftDelimiters':          '{{',
+        'rightDelimiters':         '}}',
+        'leftBlockDelimiters':     '{%',
+        'rightBlockDelimiters':    '%}',
+        'leftCommentsDelimiters':  '{*',
+        'rightCommentsDelimiters': '*}',
+        'leftRawDelimiters':       '{{{',
+        'rightRawDelimiters':      '}}}'
+    }
+"""
 
 class complier(object):
 
-    def __init__ (self, template, config = defaultConfig):
+    def __init__ (self, template):
         self._template = template
-        self._config = config
 
     def regexGen (self):
         return re.compile(r'([\\]*%s.*?[\\]*%s|[\\]*%s.*?[\\]*%s|[\\]*%s.*?[\\]*%s|[\\]*%s.*?[\\]*%s)' % (
@@ -39,6 +39,11 @@ class complier(object):
     def tokenize (self):
         # template string
         t = self._template
+
+        # throw a error when template is not a string
+        if not isinstance(t, str):
+            raise TemplateTypeError(type(t))
+
         # template length
         t_length = len(t)
         # current offset
@@ -131,7 +136,6 @@ class complier(object):
                         # next char
                         cur += 2
 
-            # delimiter start
             if t[cur] == '{':
 
                 # varible expression
@@ -149,8 +153,6 @@ class complier(object):
                     # next char
                     cur += 2
 
-
-            # delimiter start
             if t[cur] == '{':
 
                 # varible expression
@@ -181,7 +183,5 @@ class complier(object):
 
             if cur == t_length:
                 tokens.append(token)
-        
 
-        return tokens        
-
+        return tokens
