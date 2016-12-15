@@ -21,21 +21,6 @@ class complier(object):
     def __init__ (self, template):
         self._template = template
 
-    def regexGen (self):
-        return re.compile(r'([\\]*%s.*?[\\]*%s|[\\]*%s.*?[\\]*%s|[\\]*%s.*?[\\]*%s|[\\]*%s.*?[\\]*%s)' % (
-            self._config['leftDelimiters'],
-            self._config['rightDelimiters'],
-            self._config['leftBlockDelimiters'],
-            self._config['rightBlockDelimiters'],
-            self._config['leftCommentsDelimiters'],
-            self._config['rightCommentsDelimiters'],
-            self._config['leftRawDelimiters'],
-            self._config['rightRawDelimiters']
-        ))
-
-    def splitTemplate (self, regex):
-        return regex.split(self._template)
-
     def tokenize (self):
         # template string
         t = self._template
