@@ -35,6 +35,7 @@ class complier(object):
         cur = 0
         # token list
         tokens = []
+        # init token
         token = {
             'type': None,
             'value': ''
@@ -131,7 +132,7 @@ class complier(object):
 
                     # define a new token
                     token = {
-                        'type': 'VAREXP',
+                        'type': 'BLKEXP',
                         'value': '{%'
                     }
 
