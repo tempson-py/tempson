@@ -1,20 +1,20 @@
 import unittest
 import tempson
 
-class complierTest(unittest.TestCase):
+class compilerTest(unittest.TestCase):
 
     def test_template_type(self):
         with self.assertRaises(tempson.TemplateTypeError):
-            token = tempson.complier([])
+            token = tempson.compiler([])
             result = token.tokenize()
 
     def test_empty_template(self):
-        token = tempson.complier('')
+        token = tempson.compiler('')
         result = token.tokenize()
         self.assertEqual(result, [], 'Error tokenize empty template.')
 
     def test_variable_template(self):
-        token = tempson.complier('<div>{{ a }}</div>')
+        token = tempson.compiler('<div>{{ a }}</div>')
         result = token.tokenize()
         self.assertEqual(result, [
             {'type': 'HTML', 'value': '<div>'},
@@ -22,7 +22,7 @@ class complierTest(unittest.TestCase):
             {'type': 'HTML', 'value': '</div>'}], 'Error tokenize variable template.')
 
     def test_variable_with_expression_template(self):
-        token = tempson.complier('<div>{{ a + 1 }}</div>')
+        token = tempson.compiler('<div>{{ a + 1 }}</div>')
         result = token.tokenize()
         self.assertEqual(result, [
             {'type': 'HTML', 'value': '<div>'},
@@ -30,7 +30,7 @@ class complierTest(unittest.TestCase):
             {'type': 'HTML', 'value': '</div>'}], 'Error tokenize variable with expression template.')
 
     def test_variable_with_string_expression_template(self):
-        token = tempson.complier('<div>{{ a + "}}" }}</div>')
+        token = tempson.compiler('<div>{{ a + "}}" }}</div>')
         result = token.tokenize()
         self.assertEqual(result, [
             {'type': 'HTML', 'value': '<div>'},
@@ -38,7 +38,7 @@ class complierTest(unittest.TestCase):
             {'type': 'HTML', 'value': '</div>'}], 'Error tokenize variable with string expression template.')
 
     def test_block_template(self):
-        token = tempson.complier("""<div>
+        token = tempson.compiler("""<div>
             {% for item in list %}
                 {{ item }}
             {% endfor %}
@@ -54,7 +54,7 @@ class complierTest(unittest.TestCase):
             {'type': 'HTML', 'value': '\n        </div>'}], 'Error tokenize variable with string expression template.')
 
     def test_comment_template(self):
-        token = tempson.complier("""<div>
+        token = tempson.compiler("""<div>
             {* this is comments *}
             {* multi-line comments
                row1
@@ -70,7 +70,7 @@ class complierTest(unittest.TestCase):
             {'type': 'HTML', 'value': '\n        </div>'}], 'Error tokenize variable with string expression template.')
 
     def test_raw_template(self):
-        token = tempson.complier("""<div>{{{ rawHTML }}}</div>""")
+        token = tempson.compiler("""<div>{{{ rawHTML }}}</div>""")
         result = token.tokenize()
         self.assertEqual(result, [
             {'type': 'HTML', 'value': '<div>'},
