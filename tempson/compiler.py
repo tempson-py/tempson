@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import re
-from .error import *
 
 """ Default delimiters
     defaultConfig = {
@@ -27,7 +26,7 @@ class compiler(object):
 
         # throw a error when template is not a string
         if not isinstance(t, str):
-            raise TemplateTypeError(type(t))
+            raise RuntimeError('Error template type: ' + str(type(t)))
 
         # template length
         t_length = len(t)
