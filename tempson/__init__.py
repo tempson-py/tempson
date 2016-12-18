@@ -13,6 +13,7 @@ from . import tempson, createFragment, createDoc, generator, compiler
 from .tempson import *
 from .generator import *
 from .compiler import *
+from .vm import *
 from .createFragment import *
 from .createDoc import *
 from .error import *
