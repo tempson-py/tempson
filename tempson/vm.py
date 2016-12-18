@@ -7,6 +7,18 @@ from .error import *
 
 class vm (object):
 
+    def _evalExp(self, exp, context):
+        # protect context
+        _context = copy.deepcopy(context)
+
+        # compile expressions
+        try:
+            code = RestrictedPython.compile_restricted(exp, '<string>', 'eval')
+        except:
+            raise RuntimeError('ERROR import expression')
+
+        return eval(code, _context)
+
     """
     Execute a expression and return result
 
@@ -19,23 +31,26 @@ class vm (object):
         All of the expression execution results are converted to !!!string!!! returns
 
     Raises:
-        VmNameError: variable is not defined
+        nameError: name 'xxx' is not defined
 
     """
     def evalExpToStr (self, exp, context, xssProtect = True):
-        # protect context
-        _context = copy.deepcopy(context)
-
-        # compile expressions
-        try:
-            code = RestrictedPython.compile_restricted(exp, '<string>', 'eval')
-        except:
-            raise RuntimeError('ERROR import expression')
-
-        rawValue = str(eval(code, _context))
+        # evaluate expression
+        rawValue = str(self._evalExp(exp, context))
         
         # whether xss attacks protect
         return self.xssFilter(rawValue) if xssProtect else rawValue
+
+    def evalExpToBool (self, exp, context):
+        # evaluate expression
+        rawValue = str(self._evalExp(exp, context))
+
+        if rawValue is 'False':
+            return False
+        elif rawValue is 'True':
+            return True
+        else:
+            bool(rawValue)
 
     """
     Filter import expression
