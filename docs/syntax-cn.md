@@ -11,19 +11,6 @@ Tempson 的语法都是使用定界分割开来。在 Tempson 中有四种定界
 - 注释定界符：`{*` 和 `*}`
 - 原始定界符：`{{{` 和 `}}}`
 
-当然，你也可以自定自定义定界符，只需要在实例 `createDoc` 或 `createFragment` 时传入相应的配置：
-
-```python
-delimitersConfig = {
-    'leftDelimiters': '{',
-    'rightDelimiters':'}'
-}
-
-doc = new createDoc('template', delimitersConfig)
-```
-
-详细配置说明请查 [配置 Tempson](config-cn.md) 章节。
-
 ## 变量和表达式模板
 
 凡是在表达式定界符内的字符，Tempson 一律会将其理解成表达式。在生成 HTML 的时候，Tempson 将会取表达式的值进行渲染。
