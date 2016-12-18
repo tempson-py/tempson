@@ -17,6 +17,10 @@ class vmTest(unittest.TestCase):
         with self.assertRaises(NameError):
             result = vm.evalExpToStr('a + 1', {}, True)
 
+    def test_execute_statement (self):
+        with self.assertRaises(RuntimeError):
+            result = vm.evalExpToStr('a = 1', {}, True)
+
     def test_execute_code_without_xss_filter (self):
         result = vm.evalExpToStr('a + 3', { 'a': 1 }, False)
         self.assertEqual(result, '4', 'Turn off filter failed')
