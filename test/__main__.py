@@ -1,4 +1,4 @@
-from .tokenizer import *
+from .compiler import *
 from .vm import *
 from .generator import *
 
