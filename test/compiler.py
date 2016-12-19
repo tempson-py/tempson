@@ -130,22 +130,67 @@ class compilerTest(unittest.TestCase):
     # AST PARSER TEST #
 
     def test_ast_parser(self):
-        token = tempson.compiler("""<div>
-            {% for item in list %}
-                {{ item }}
+        doc = tempson.compiler("""<div>
+            {% for item in list: %}
+                {% if item == 1: %}
+                    {{ item }}
+                {% endif %}
+                {% if item == 2: %}
+                    {{ item }}
+                {% endif %}
             {% endfor %}
         </div>""")
-        result = token.astParser()
+        tokens = doc.tokenize()
+        result = doc.astParser(tokens)
+        print result
         try:
-            self.assertEqual(result, [
-                {'type': 'HTML', 'value': '<div>\n            '},
-                {'type': 'BLKEXP', 'value': '{% for item in list %}'},
-                {'type': 'HTML', 'value': '\n                '},
-                {'type': 'VAREXP', 'value': '{{ item }}'},
-                {'type': 'HTML', 'value': '\n            '},
-                {'type': 'BLKEXP', 'value': '{% endfor %}'},
-                {'type': 'HTML', 'value': '\n        </div>'}
-            ])
+            self.assertEqual(result, [{
+                'type': 'HTML',
+                'value': '<div>\n            '
+            }, {
+                'body': [{
+                    'type': 'HTML',
+                    'value': '\n                '
+                }, {
+                    'body': [{
+                        'type': 'HTML',
+                        'value': '\n                    '
+                    }, {
+                        'type': 'VAREXP',
+                        'value': '{{ item }}'
+                    }, {
+                        'type': 'HTML',
+                        'value': '\n                '
+                    }],
+                    'expression': 'i',
+                    'type': 'IFEXP'
+                }, {
+                    'type': 'HTML',
+                    'value': '\n                '
+                }, {
+                    'body': [{
+                        'type': 'HTML',
+                        'value': '\n                    '
+                    }, {
+                        'type': 'VAREXP',
+                        'value': '{{ item }}'
+                    }, {
+                        'type': 'HTML',
+                        'value': '\n                '
+                    }],
+                    'expression': 'i',
+                    'type': 'IFEXP'
+                }, {
+                    'type': 'HTML',
+                    'value': '\n            '
+                }],
+                'squence': 'list',
+                'type': 'FOREXP',
+                'iteratingVar': 'item'
+            }, {
+                'type': 'HTML',
+                'value': '\n        </div>'
+            }])
         except AssertionError:
             coloredPrint('\n  [ast parser] × ast parse failed.', 'RED')
         else:

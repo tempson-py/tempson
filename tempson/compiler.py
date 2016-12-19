@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import re, copy
 
 class compiler(object):
 
-    def __init__ (self, template):
+    def __init__(self, template):
         self._template = template
 
     def tokenize (self):
@@ -154,4 +155,79 @@ class compiler(object):
             if cur == t_length:
                 tokens.append(token)
 
+        self.tokens = tokens
         return tokens
+
+    """
+    [{'type': 'HTML', 'value': '<div>\n            '},
+    {'type': 'BLKEXP', 'value': '{% for item in list %}'},
+    {'type': 'HTML', 'value': '\n                '},
+    {'type': 'VAREXP', 'value': '{{ item }}'},
+    {'type': 'HTML', 'value': '\n            '},
+    {'type': 'BLKEXP', 'value': '{% endfor %}'},
+    {'type': 'HTML', 'value': '\n        </div>'}]
+    """
+    def _ast(self, tokens):
+        # ast fragments
+        fragment = []
+        # offset
+        o = 0
+        # ast branch
+        ast = {
+            'type': None,
+            'body': []
+        }
+
+        while o < len(tokens):
+            t = tokens[o]
+
+            if t['type'] == 'BLKEXP':
+                # end of block expression
+                blockEndFlag = re.findall(r'end(for|if)', t['value'].lower())
+                if blockEndFlag and blockEndFlag[0].upper() + 'EXP' == ast['type']:
+                    # print ast
+                    # recursion parse body
+                    ast['body'] = self._ast(copy.deepcopy(ast['body']))
+                    # save to fragment
+                    fragment.append(ast)
+                    ast = {
+                        'type': None,
+                        'body': []
+                    }
+                    o += 1
+                    continue
+
+                # find for expression
+                elif re.findall(r'for\s+(\w+)\s+in\s+(\w+)\s*:?', t['value']) and ast['type'] == None:
+                    matchObject = re.findall(r'\s*for\s+(\w+)\s+in\s+(\w+)\s*:?', t['value'])
+                    ast['type'] = 'FOREXP'
+                    ast['squence'] = matchObject[0][1]
+                    ast['iteratingVar'] = matchObject[0][0]
+                    # next token
+                    o += 1
+                    continue
+
+                # find if expression
+                elif re.findall(r'if\s+([^:]+)\s*:', t['value']) and ast['type'] == None:
+                    matchObject = re.findall(r'if\s+([^:]+)\s*:', t['value'])
+                    ast['type'] = 'IFEXP'
+                    ast['expression'] = matchObject[0][0]
+                    # next token
+                    o += 1
+                    continue
+
+            if ast['type'] in ('FOREXP', 'IFEXP'):
+                ast['body'].append(t)
+                # next token
+                o += 1
+                continue
+
+            if t['type'] in ('HTML', 'VAREXP', 'RAWEXP'):
+                fragment.append(t)
+
+            o += 1
+
+        return fragment
+
+    def astParser(self, tokens):
+        return self._ast(tokens)
