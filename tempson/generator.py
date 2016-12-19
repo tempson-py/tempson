@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from tokenizer import *
-
-defaultConfig = {
-    "leftDelimiters":       '{{',
-    "rightDelimiters":      '}}',
-    "leftBlockDelimiters":  '{%',
-    "rightBlockDelimiters": '%}'
-}
+from compiler import *
 
 class generator(object):
 
-    def __init__(self, template, config = defaultConfig):
-        self._config = config
+    ast = None
+
+    def __init__(self, template):
         self.template = template
+        self.tokenizer()
 
     def tokenizer(self):
-        pass
+        token = compiler(self.template)
+        self.ast = token.tokenize()
 
     def render(self, variables):
-        return self.template
+        return self.ast
