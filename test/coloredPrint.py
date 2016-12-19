@@ -17,6 +17,10 @@ COLOR = {
 }
 
 
+# return string with color
+def colored(string, c):
+    return '\033[1;%sm %s\x1b[0m' % (COLOR[c], string)
+
 # print string with color
 def coloredPrint(string, c):
     print('\033[1;%sm %s\x1b[0m' % (COLOR[c], string))

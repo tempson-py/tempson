@@ -1,20 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import re
-
-""" Default delimiters
-    defaultConfig = {
-        'leftDelimiters':          '{{',
-        'rightDelimiters':         '}}',
-        'leftBlockDelimiters':     '{%',
-        'rightBlockDelimiters':    '%}',
-        'leftCommentsDelimiters':  '{*',
-        'rightCommentsDelimiters': '*}',
-        'leftRawDelimiters':       '{{{',
-        'rightRawDelimiters':      '}}}'
-    }
-"""
-
 class compiler(object):
 
     def __init__ (self, template):
