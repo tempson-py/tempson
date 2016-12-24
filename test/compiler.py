@@ -142,7 +142,6 @@ class compilerTest(unittest.TestCase):
         </div>""")
         tokens = doc.tokenize()
         result = doc.astParser(tokens)
-        print result
         try:
             self.assertEqual(result, [{
                 'type': 'HTML',
