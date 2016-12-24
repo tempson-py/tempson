@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from compiler import *
+from renderer import *
+
+r = renderer()
 
 class generator(object):
 
@@ -14,5 +17,29 @@ class generator(object):
         token = compiler(self.template)
         self.ast = token.tokenize()
 
-    def render(self, variables):
-        return self.ast
+    def render(self, scope):
+        html = ''
+        
+        for ast in self.ast:
+            if ast['type'] == 'HTML':
+                html += ast['value']
+            elif ast['type'] == 'VAREXP':
+                renderResult = r.renderVariable(ast, scope)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render variable expression')
+            elif ast['type'] == 'IFEXP':
+                renderResult = r.renderIfExpression(ast, scope)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render variable expression')
+            elif ast['type'] == 'FOREXP':
+                renderResult = r.renderForExpression(ast, scope)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render variable expression')
+
+        return html
