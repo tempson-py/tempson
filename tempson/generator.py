@@ -19,7 +19,7 @@ class generator(object):
 
     def render(self, scope):
         html = ''
-        
+
         for ast in self.ast:
             if ast['type'] == 'HTML':
                 html += ast['value']
@@ -28,18 +28,18 @@ class generator(object):
                 if isinstance(renderResult, str):
                     html += renderResult
                 else:
-                    raise RuntimeError('Unknown renderer error in render variable expression')
+                    raise RuntimeError('Unknown renderer error in render variable-expression')
             elif ast['type'] == 'IFEXP':
                 renderResult = r.renderIfExpression(ast, scope)
                 if isinstance(renderResult, str):
                     html += renderResult
                 else:
-                    raise RuntimeError('Unknown renderer error in render variable expression')
+                    raise RuntimeError('Unknown renderer error in render if-expression')
             elif ast['type'] == 'FOREXP':
                 renderResult = r.renderForExpression(ast, scope)
                 if isinstance(renderResult, str):
                     html += renderResult
                 else:
-                    raise RuntimeError('Unknown renderer error in render variable expression')
+                    raise RuntimeError('Unknown renderer error in render for-expression')
 
         return html
