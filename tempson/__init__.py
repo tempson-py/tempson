@@ -11,6 +11,7 @@ __contributors__ = "https://github.com/tempson-py/tempson/blob/master/CONTRIBUTO
 from . import tempson, createFragment, createDoc, generator, compiler
 
 from .tempson import *
+from .renderer import *
 from .generator import *
 from .compiler import *
 from .vm import *
