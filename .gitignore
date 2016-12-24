@@ -1,3 +1,4 @@
 # PYC
 *.pyc
 settings.json
+.vscode
