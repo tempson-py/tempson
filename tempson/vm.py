@@ -9,8 +9,8 @@ class vm (object):
 
     def _evalExp(self, exp, context):
         # protect context
-        # _context = copy.deepcopy(context)
-        _context = context
+        _context = copy.deepcopy(context)
+        # _context = context
         # compile expressions
         try:
             code = RestrictedPython.compile_restricted(exp, '<string>', 'eval')
