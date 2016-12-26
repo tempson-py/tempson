@@ -74,26 +74,30 @@ class renderer(object):
         nameError: name 'xxx' is not defined
     """
     def renderIfExpression(self, ast, scope):
-        try:
-            template = ''
-            items = ast['body']
-            _context = scope
-            condition = eval(ast['expression'], _context)
-            if condition:
-                for item in items:
-                    temp = ''
-                    valType = item['type'].upper()
-                    if valType == 'HTML':
-                        temp = item['value']
-                    elif valType == 'FOREXP':
-                        temp = self.renderForExpression(item, _context)
-                    elif valType == 'IFEXP':
-                        temp = self.renderIfExpression(item, _context)
-                    elif valType == 'VAREXP':
-                        temp = self.renderVariable(item, _context)
-                    else:
-                        temp = item['value']
-                    template += temp
-            return template
-        except BaseException as e:
-            raise RuntimeError(e)
+        html = ''
+        judge = evalExpToBool (ast, scope)
+
+        if judge == True:
+            for ast in ast['body']:
+                if ast['type'] == 'HTML':
+                html += ast['value']
+            elif ast['type'] == 'VAREXP':
+                renderResult = self.renderVariable(ast, scope)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render variable-expression')
+            elif ast['type'] == 'IFEXP':
+                renderResult = self.renderIfExpression(ast, scope)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render if-expression')
+            elif ast['type'] == 'FOREXP':
+                renderResult = self.renderForExpression(ast, scope)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render for-expression')
+
+        return html
