@@ -208,10 +208,10 @@ class compiler(object):
                     continue
 
                 # find if expression
-                elif re.findall(r'if\s+([^:]+)\s*:', t['value']) and ast['type'] == None:
-                    matchObject = re.findall(r'if\s+([^:]+)\s*:', t['value'])
+                elif re.findall(r'if\s+(.+):', t['value']) and ast['type'] == None:
+                    matchObject = re.findall(r'if\s+(.+):', t['value'])
                     ast['type'] = 'IFEXP'
-                    ast['expression'] = matchObject[0][0]
+                    ast['expression'] = matchObject[0]
                     # next token
                     o += 1
                     continue

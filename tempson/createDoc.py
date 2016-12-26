@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from .generator import *
 
-class createFragment(object):
+class createDoc(generator):
 
-    def __init__(self, template):
-        self.template = template
-
-    def render(self, variables):
-        print self.template
+    def __init__(self, path):
+        with open(path, 'r') as f:
+            self.template = f.read()
+        self.tokenizer()

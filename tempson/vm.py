@@ -3,7 +3,6 @@
 # Author: Jason
 import re, ast, copy
 import RestrictedPython
-from .error import *
 
 class vm (object):
 

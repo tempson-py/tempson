@@ -161,7 +161,7 @@ class compilerTest(unittest.TestCase):
                         'type': 'HTML',
                         'value': '\n                '
                     }],
-                    'expression': 'i',
+                    'expression': 'item == 1',
                     'type': 'IFEXP'
                 }, {
                     'type': 'HTML',
@@ -177,7 +177,7 @@ class compilerTest(unittest.TestCase):
                         'type': 'HTML',
                         'value': '\n                '
                     }],
-                    'expression': 'i',
+                    'expression': 'item == 2',
                     'type': 'IFEXP'
                 }, {
                     'type': 'HTML',
