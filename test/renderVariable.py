@@ -67,50 +67,50 @@ class renderVariableTest(unittest.TestCase):
         result = renderer.renderForExpression({
             'body': [{
                 'type': 'HTML',
-                'value': '\n                '
+                'value': '\n'
             }, {
                 'body': [{
                     'type': 'HTML',
-                    'value': '\n                    '
+                    'value': '\n'
                 }, {
                     'type': 'VAREXP',
-                    'value': '{{ item }}'
+                    'value': '{{item}}'
                 }, {
                     'type': 'HTML',
-                    'value': '\n                '
+                    'value': '\n'
                 }],
                 'expression': 'i',
                 'type': 'IFEXP'
             }, {
                 'type': 'HTML',
-                'value': '\n                '
+                'value': '\n'
             }, {
                 'body': [{
                     'type': 'HTML',
-                    'value': '\n                    '
+                    'value': '\n'
                 }, {
                     'type': 'VAREXP',
-                    'value': '{{ item }}'
+                    'value': '{{item}}'
                 }, {
                     'type': 'HTML',
-                    'value': '\n                '
+                    'value': '\n'
                 }],
                 'expression': 'j',
                 'type': 'IFEXP'
             }, {
                 'type': 'HTML',
-                'value': '\n            '
+                'value': '\n'
             }],
             'squence': 'list',
             'type': 'FOREXP',
             'iteratingVar': 'item'
         }, {
             'list': [1, 2, 3],
-            'i': 1,
-            'j':0
+            'i': True,
+            'j': False
         })
         try:
-            self.assertEqual(result,'\n\n1\n\n\n\n2\n\n\n\n3\n\n')
+            self.assertEqual(result,'\n\n1\n\n1\n\n\n\n2\n\n2\n\n\n\n3\n\n3\n\n\n\n')
         except AssertionError:
             coloredPrint('\n  [renderer] × falied render for expression ast.', 'RED')
         else:
@@ -120,13 +120,13 @@ class renderVariableTest(unittest.TestCase):
         result = renderer.renderIfExpression({
                 'body': [{
                     'type': 'HTML',
-                    'value': '\n                    '
+                    'value': '\n'
                 }, {
                     'type': 'VAREXP',
-                    'value': '{{ item }}'
+                    'value': '{{item}}'
                 }, {
                     'type': 'HTML',
-                    'value': '\n                '
+                    'value': '\n'
                 }],
                 'expression': 'i',
                 'type': 'IFEXP'

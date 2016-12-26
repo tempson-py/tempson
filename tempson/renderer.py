@@ -55,7 +55,6 @@ class renderer(object):
                     else:
                         curHTML = item['value']
                     template += curHTML
-
             return template
         except BaseException as e:
             raise RuntimeError(e)
