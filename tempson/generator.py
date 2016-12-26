@@ -14,8 +14,9 @@ class generator(object):
         self.tokenizer()
 
     def tokenizer(self):
-        token = compiler(self.template)
-        self.ast = token.tokenize()
+        com = compiler(self.template)
+        tokens = com.tokenize()
+        self.ast = com.astParser(tokens)
 
     def render(self, scope):
         html = ''
