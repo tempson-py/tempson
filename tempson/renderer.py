@@ -75,30 +75,25 @@ class renderer(object):
     Raises:
         nameError: name 'xxx' is not defined
     """
-    def renderIfExpression(self, ast, scope):
+    def renderIfExpression(self, item, scope):
         html = ''
-        judge = v.evalExpToBool (ast, scope)
-
-        if judge == True:
-            for ast in ast['body']:
-                if ast['type'] == 'HTML':
-                    html += ast['value']
-                elif ast['type'] == 'VAREXP':
+        condition = item['expression']
+        judge = v.evalExpToBool(condition, scope)
+        if judge:
+            for ast in item['body']:
+                valType = ast['type'].upper()
+                renderResult = ''
+                if valType == 'HTML':
+                    renderResult = ast['value']
+                elif valType == 'VAREXP':
                     renderResult = self.renderVariable(ast, scope)
-                    if isinstance(renderResult, str):
-                        html += renderResult
-                    else:
-                        raise RuntimeError('Unknown renderer error in render variable-expression')
-                elif ast['type'] == 'IFEXP':
+                elif valType == 'IFEXP':
                     renderResult = self.renderIfExpression(ast, scope)
-                    if isinstance(renderResult, str):
-                        html += renderResult
-                    else:
-                        raise RuntimeError('Unknown renderer error in render if-expression')
-                elif ast['type'] == 'FOREXP':
+                elif valType == 'FOREXP':
                     renderResult = self.renderForExpression(ast, scope)
-                    if isinstance(renderResult, str):
-                        html += renderResult
-                    else:
-                        raise RuntimeError('Unknown renderer error in render for-expression')
+                
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render variable-expression')
         return html
