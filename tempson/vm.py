@@ -16,7 +16,6 @@ class vm (object):
             code = RestrictedPython.compile_restricted(exp, '<string>', 'eval')
         except:
             raise RuntimeError('ERROR import expression')
-
         return eval(code, _context)
 
     """

@@ -55,7 +55,6 @@ class renderer(object):
                     else:
                         curHTML = item['value']
                     template += curHTML
-
             return template
         except BaseException as e:
             raise RuntimeError(e)
@@ -78,8 +77,9 @@ class renderer(object):
             template = ''
             items = ast['body']
             _context = scope
-            condition = eval(ast['expression'], _context)
+            condition = v.evalExpToStr(ast['expression'], _context, True)
             if condition:
+                print condition
                 for item in items:
                     temp = ''
                     valType = item['type'].upper()
@@ -91,9 +91,12 @@ class renderer(object):
                         temp = self.renderIfExpression(item, _context)
                     elif valType == 'VAREXP':
                         temp = self.renderVariable(item, _context)
+                        # print temp
                     else:
                         temp = item['value']
                     template += temp
+            else:
+                template = ''
             return template
         except BaseException as e:
             raise RuntimeError(e)
