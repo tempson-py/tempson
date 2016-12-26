@@ -74,29 +74,28 @@ class renderer(object):
     """
     def renderIfExpression(self, ast, scope):
         html = ''
-        judge = evalExpToBool (ast, scope)
+        judge = v.evalExpToBool (ast, scope)
 
         if judge == True:
             for ast in ast['body']:
                 if ast['type'] == 'HTML':
-                html += ast['value']
-            elif ast['type'] == 'VAREXP':
-                renderResult = self.renderVariable(ast, scope)
-                if isinstance(renderResult, str):
-                    html += renderResult
-                else:
-                    raise RuntimeError('Unknown renderer error in render variable-expression')
-            elif ast['type'] == 'IFEXP':
-                renderResult = self.renderIfExpression(ast, scope)
-                if isinstance(renderResult, str):
-                    html += renderResult
-                else:
-                    raise RuntimeError('Unknown renderer error in render if-expression')
-            elif ast['type'] == 'FOREXP':
-                renderResult = self.renderForExpression(ast, scope)
-                if isinstance(renderResult, str):
-                    html += renderResult
-                else:
-                    raise RuntimeError('Unknown renderer error in render for-expression')
-
+                    html += ast['value']
+                elif ast['type'] == 'VAREXP':
+                    renderResult = self.renderVariable(ast, scope)
+                    if isinstance(renderResult, str):
+                        html += renderResult
+                    else:
+                        raise RuntimeError('Unknown renderer error in render variable-expression')
+                elif ast['type'] == 'IFEXP':
+                    renderResult = self.renderIfExpression(ast, scope)
+                    if isinstance(renderResult, str):
+                        html += renderResult
+                    else:
+                        raise RuntimeError('Unknown renderer error in render if-expression')
+                elif ast['type'] == 'FOREXP':
+                    renderResult = self.renderForExpression(ast, scope)
+                    if isinstance(renderResult, str):
+                        html += renderResult
+                    else:
+                        raise RuntimeError('Unknown renderer error in render for-expression')
         return html
