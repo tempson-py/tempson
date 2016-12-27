@@ -1,4 +1,5 @@
-# Tempson
+# Tempson [![Build Status](https://travis-ci.org/tempson-py/tempson.svg?branch=master)](https://travis-ci.org/tempson-py/tempson)
+
 
 A template engine of Python.
 
