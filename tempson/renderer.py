@@ -5,12 +5,12 @@ v = vm()
 
 class renderer(object):
 
-    def renderVariable(self, ast, scope):
+    def renderVariable(self, ast, scope, raw = False):
         try:
             if ast['type'] == 'VAREXP':
                 expressionMatch = re.match(r'\{\{\s*(.+)\s*\}\}', ast['value'])
                 if expressionMatch.group(1):
-                    return v.evalExpToStr(expressionMatch.group(1), scope, True)
+                    return v.evalExpToStr(expressionMatch.group(1), scope, not raw)
                 else:
                     raise RuntimeError('Error expression template.')
             else:
