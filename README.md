@@ -5,6 +5,13 @@ A template engine of Python.
 
 ## MIT LICENSE
 
+## INSTALL
+
+Install from pip:
+```bash
+(sudo)pip install tempson
+```
+
 The MIT License (MIT)
 Copyright © 2016 Tempson
 
