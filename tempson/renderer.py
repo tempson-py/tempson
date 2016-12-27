@@ -36,12 +36,12 @@ class renderer(object):
     def renderForExpression(self, ast, scope):
         try:
             template = ''
-            _context = scope
+            _context = copy.deepcopy(scope)
             items = ast['body']
-            if _context:
-                for i in _context[ast['squence']]:
+            squence = _context[ast['squence']]
+            if squence:
+                for i in squence:
                     _context[ast['iteratingVar']] = i
-
                     for item in items:
 
                         curHTML = ''
@@ -53,6 +53,7 @@ class renderer(object):
                         elif (valType == 'IFEXP'):
                             curHTML = self.renderIfExpression(item, _context)
                         elif (valType == 'VAREXP'):
+                            # print _context
                             curHTML = self.renderVariable(item, _context)
                         else:
                             curHTML = item['value']

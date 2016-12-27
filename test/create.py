@@ -28,7 +28,7 @@ class finalTest(unittest.TestCase):
         })
         print result
         try:
-            self.assertEqual(result, '<div>123</div>')
+            self.assertEqual(result, "<!DOCTYPE html>\n<html>\n<head>\n    <title>Test tempson</title>\n</head>\n<body>    <ul>\n\n            <li>Jason</li>\n\n            <li>Alice</li>\n\n    </ul>\n</body>\n</html>")
         except AssertionError:
             coloredPrint('\n  [createFragment] × falied create from fragment.', 'RED')
         else:

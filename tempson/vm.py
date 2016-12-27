@@ -9,12 +9,13 @@ class vm (object):
     def _evalExp(self, exp, context):
         # protect context
         _context = copy.deepcopy(context)
-        # _context = context
+        return eval(exp, _context)
         # compile expressions
         try:
             code = RestrictedPython.compile_restricted(exp, '<string>', 'eval')
         except:
             raise RuntimeError('ERROR import expression')
+        print get_safe_globals()
         return eval(code, _context)
 
     """
@@ -35,7 +36,6 @@ class vm (object):
     def evalExpToStr (self, exp, context, xssProtect = True):
         # evaluate expression
         rawValue = str(self._evalExp(exp, context))
-        
         # whether xss attacks protect
         return self.xssFilter(rawValue) if xssProtect else rawValue
 
