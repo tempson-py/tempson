@@ -114,7 +114,7 @@ class renderVariableTest(unittest.TestCase):
         except AssertionError:
             coloredPrint('\n  [renderer] × falied render for expression ast.', 'RED')
         else:
-            coloredPrint('\n  [renderer] × succeed render for expression ast.', 'GREEN')
+            coloredPrint('\n  [renderer] √ succeed render for expression ast.', 'GREEN')
 
     def test_render_if_expression(self):
         result = renderer.renderIfExpression({
@@ -139,4 +139,4 @@ class renderVariableTest(unittest.TestCase):
         except AssertionError:
             coloredPrint('\n  [renderer] × falied render if expression ast.', 'RED')
         else:
-            coloredPrint('\n  [renderer] × succeed render if expression ast.', 'GREEN')
+            coloredPrint('\n  [renderer] √ succeed render if expression ast.', 'GREEN')
