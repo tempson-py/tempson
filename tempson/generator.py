@@ -30,6 +30,12 @@ class generator(object):
                     html += renderResult
                 else:
                     raise RuntimeError('Unknown renderer error in render variable-expression')
+            elif ast['type'] == 'RAWEXP':
+                renderResult = r.renderVariable(ast, scope, True)
+                if isinstance(renderResult, str):
+                    html += renderResult
+                else:
+                    raise RuntimeError('Unknown renderer error in render rawHTML-expression')
             elif ast['type'] == 'IFEXP':
                 renderResult = r.renderIfExpression(ast, scope)
                 if isinstance(renderResult, str):

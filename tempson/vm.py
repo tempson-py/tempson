@@ -9,14 +9,21 @@ class vm (object):
     def _evalExp(self, exp, context):
         # protect context
         _context = copy.deepcopy(context)
-        return eval(exp, _context)
+        _context['_getattr_'] = self._hook_getattr
+        _context['_getitem_'] = self._hook_getattr
+        # _context = context
         # compile expressions
         try:
             code = RestrictedPython.compile_restricted(exp, '<string>', 'eval')
         except:
             raise RuntimeError('ERROR import expression')
-        print get_safe_globals()
         return eval(code, _context)
+
+    def _hook_getattr(self, obj, attr):
+        import os
+        if obj is os:
+            raise RuntimeError('Error import os module')
+        return obj.get(attr, None)
 
     """
     Execute a expression and return result

@@ -6,7 +6,7 @@
 <body>
     <ul>
         {% for item in list %}
-            <li>{{ item['name'] }}</li>
+            <li>{{ item['name'] }}: {{ item['age'] }}岁</li>
         {% endfor %}
     </ul>
 </body>

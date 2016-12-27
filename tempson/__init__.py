@@ -8,13 +8,11 @@ __author__ = [
 __license__ = "MIT"
 __contributors__ = "https://github.com/tempson-py/tempson/blob/master/CONTRIBUTORS.md"
 
-from . import tempson, createFragment, createDoc, generator, compiler
+from . import createFragment, createDoc, generator, compiler
 
-from .tempson import *
-from .renderer import *
 from .generator import *
-from .compiler import *
-from .vm import *
 from .createFragment import *
 from .createDoc import *
-from .error import *
+from .compiler import *
+from .renderer import *
+from .vm import *

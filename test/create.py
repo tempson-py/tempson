@@ -26,10 +26,11 @@ class finalTest(unittest.TestCase):
                 'age': 21
             }]
         })
-        print result
+        with open('./test/index.html', 'r') as f:
+            html = f.read()
         try:
-            self.assertEqual(result, "<!DOCTYPE html>\n<html>\n<head>\n    <title>Test tempson</title>\n</head>\n<body>    <ul>\n\n            <li>Jason</li>\n\n            <li>Alice</li>\n\n    </ul>\n</body>\n</html>")
+            self.assertEqual(result, html)
         except AssertionError:
-            coloredPrint('\n  [createFragment] × falied create from fragment.', 'RED')
+            coloredPrint('\n  [createDoc] × falied create from doc.', 'RED')
         else:
-            coloredPrint('\n  [createFragment] √ successed create from fragment.', 'GREEN')
+            coloredPrint('\n  [createDoc] √ successed create from doc.', 'GREEN')
